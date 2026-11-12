@@ -1,4 +1,4 @@
-const GROKBOT_PARTS=[['hands','双手','⌁'],['feet','双脚','⌄'],['tail','尾巴','〜'],['antenna','天线','⌃']];
+const GROKBOT_PARTS=[['hands','双手','⌁'],['feet','双脚','⌄'],['tail','尾巴','〜'],['antenna','天线','⌃'],['cat-ears','猫耳','∧']];
 const GROKBOT_ACCESSORIES=[['straw-hat','草帽','◒'],['glasses','眼镜','◎'],['bowtie','蝴蝶结','⋈'],['cape','披风','◢']];
 const selectedParts=new Set(),selectedAccessories=new Set(),partRoot=document.querySelector('#part-options'),accessoryRoot=document.querySelector('#accessory-options'),quickClasses=['quick-bounce','quick-shake','quick-peek','quick-pinch','quick-squish','quick-wave'];let quickTimer=0,lastQuickAction={key:'none',name:'无'};
 function prepareBot(){
@@ -17,5 +17,5 @@ function playQuickAction(name){clearTimeout(quickTimer);[...quickClasses,'act-bo
 document.querySelector('#quick-actions').addEventListener('click',event=>{const button=event.target.closest('[data-quick-action]');if(button)playQuickAction(button.dataset.quickAction)});
 function randomizeDecorations(){GROKBOT_PARTS.forEach(item=>setSelection('part',item[0],Math.random()<.42));GROKBOT_ACCESSORIES.forEach(item=>setSelection('accessory',item[0],false))}
 function randomizeAll(){window.GrokbotCustomizer?.randomize();window.GrokbotCore?.randomize();randomizeDecorations();const actions=['bounce','shake','peek','pinch','squish','wave'];playQuickAction(actions[Math.floor(Math.random()*actions.length)]);return window.getGrokbotSnapshot()}
-const customizedSnapshot=window.getGrokbotSnapshot;window.getGrokbotSnapshot=()=>({...customizedSnapshot(),parts:[...selectedParts],partNames:GROKBOT_PARTS.filter(item=>selectedParts.has(item[0])).map(item=>item[1]),accessories:[...selectedAccessories],accessoryNames:GROKBOT_ACCESSORIES.filter(item=>selectedAccessories.has(item[0])).map(item=>item[1]),quickAction:lastQuickAction.key,quickActionName:lastQuickAction.name});
+const customizedSnapshot=window.getGrokbotSnapshot;window.getGrokbotSnapshot=()=>({...customizedSnapshot(),parts:[...selectedParts],partNames:GROKBOT_PARTS.filter(item=>selectedParts.has(item[0])).map(item=>item[1]),catEars:window.CatEars?window.CatEars.data():undefined,accessories:[...selectedAccessories],accessoryNames:GROKBOT_ACCESSORIES.filter(item=>selectedAccessories.has(item[0])).map(item=>item[1]),quickAction:lastQuickAction.key,quickActionName:lastQuickAction.name});
 window.GrokbotEnhancements={playQuickAction,randomizeDecorations,randomizeAll,quickActions:['bounce','shake','peek','pinch','squish','wave']};updateSummaries();
